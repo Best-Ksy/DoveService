@@ -1,0 +1,1 @@
+http://localhost:8001/oauth/authorize?client_id=client&response_type=code

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kj.dove.model.dao.UserInfoMapper">
+
+  <resultMap id="BaseResultMap" type="com.kj.dove.model.entity.UserInfo">
+    <id column="ID" jdbcType="INTEGER" property="id"/>
+    <result column="USER_NICK_NAME" jdbcType="VARCHAR" property="userNickName"/>
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName"/>
+    <result column="USER_PHONE_NUM" jdbcType="VARCHAR" property="userPhoneNum"/>
+    <result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail"/>
+    <result column="USER_COVER_VIEW" jdbcType="VARCHAR" property="userCoverView"/>
+    <result column="USER_DESC" jdbcType="VARCHAR" property="userDesc"/>
+    <result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword"/>
+    <result column="USER_WECHAT" jdbcType="VARCHAR" property="userWechat"/>
+    <result column="USER_QQ" jdbcType="VARCHAR" property="userQq"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{ criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{ criterion.value} and #{ criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{ listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{ criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{ criterion.value} and #{ criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{ listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, USER_NICK_NAME, USER_NAME, USER_PHONE_NUM, USER_EMAIL, USER_COVER_VIEW, USER_DESC, 
+	USER_PASSWORD, USER_WECHAT, USER_QQ
+  </sql>
+
+  <select id="selectByExample" parameterType="UserInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByExample" parameterType="UserInfoExample">
+    delete from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+
+  <insert id="insert" parameterType="UserInfo">
+    <selectKey keyProperty="ID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_info(USER_NICK_NAME, USER_NAME, USER_PHONE_NUM, 
+	 USER_EMAIL, USER_COVER_VIEW, USER_DESC, USER_PASSWORD, 
+	 USER_WECHAT, USER_QQ)
+    values (#{userNickName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userPhoneNum,jdbcType=VARCHAR}, 
+	 #{userEmail,jdbcType=VARCHAR}, #{userCoverView,jdbcType=VARCHAR}, #{userDesc,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+	 #{userWechat,jdbcType=VARCHAR}, #{userQq,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="UserInfo">
+    <selectKey keyProperty="ID" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userNickName != null">
+        USER_NICK_NAME,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="userPhoneNum != null">
+        USER_PHONE_NUM,
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL,
+      </if>
+      <if test="userCoverView != null">
+        USER_COVER_VIEW,
+      </if>
+      <if test="userDesc != null">
+        USER_DESC,
+      </if>
+      <if test="userPassword != null">
+        USER_PASSWORD,
+      </if>
+      <if test="userWechat != null">
+        USER_WECHAT,
+      </if>
+      <if test="userQq != null">
+        USER_QQ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userNickName != null">
+        #{userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhoneNum != null">
+        #{userPhoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userCoverView != null">
+        #{userCoverView,jdbcType=VARCHAR},
+      </if>
+      <if test="userDesc != null">
+        #{userDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userWechat != null">
+        #{userWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null">
+        #{userQq,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="countByExample" parameterType="UserInfoExample" resultType="java.lang.Long">
+    select count(*) from user_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <update id="updateByExampleSelective" parameterType="map">
+    update user_info
+    <set>
+      <if test="record.id != null">
+       ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNickName != null">
+       USER_NICK_NAME = #{record.userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null">
+       USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhoneNum != null">
+       USER_PHONE_NUM = #{record.userPhoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userEmail != null">
+       USER_EMAIL = #{record.userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userCoverView != null">
+       USER_COVER_VIEW = #{record.userCoverView,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDesc != null">
+       USER_DESC = #{record.userDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPassword != null">
+       USER_PASSWORD = #{record.userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWechat != null">
+       USER_WECHAT = #{record.userWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userQq != null">
+       USER_QQ = #{record.userQq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByExample" parameterType="map">
+    update user_info
+    set ID = #{record.id,jdbcType=INTEGER},
+	  USER_NICK_NAME = #{record.userNickName,jdbcType=VARCHAR},
+	  USER_NAME = #{record.userName,jdbcType=VARCHAR},
+	  USER_PHONE_NUM = #{record.userPhoneNum,jdbcType=VARCHAR},
+	  USER_EMAIL = #{record.userEmail,jdbcType=VARCHAR},
+	  USER_COVER_VIEW = #{record.userCoverView,jdbcType=VARCHAR},
+	  USER_DESC = #{record.userDesc,jdbcType=VARCHAR},
+	  USER_PASSWORD = #{record.userPassword,jdbcType=VARCHAR},
+	  USER_WECHAT = #{record.userWechat,jdbcType=VARCHAR},
+	  USER_QQ = #{record.userQq,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="UserInfo">
+    update user_info
+    <set>
+      <if test="userNickName != null">
+        USER_NICK_NAME = #{userNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhoneNum != null">
+        USER_PHONE_NUM = #{userPhoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userCoverView != null">
+        USER_COVER_VIEW = #{userCoverView,jdbcType=VARCHAR},
+      </if>
+      <if test="userDesc != null">
+        USER_DESC = #{userDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userWechat != null">
+        USER_WECHAT = #{userWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="userQq != null">
+        USER_QQ = #{userQq,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="UserInfo">
+    update user_info
+    set USER_NICK_NAME = #{userNickName,jdbcType=VARCHAR},
+	  USER_NAME = #{userName,jdbcType=VARCHAR},
+	  USER_PHONE_NUM = #{userPhoneNum,jdbcType=VARCHAR},
+	  USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+	  USER_COVER_VIEW = #{userCoverView,jdbcType=VARCHAR},
+	  USER_DESC = #{userDesc,jdbcType=VARCHAR},
+	  USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+	  USER_WECHAT = #{userWechat,jdbcType=VARCHAR},
+	  USER_QQ = #{userQq,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
